@@ -40,4 +40,10 @@ class UserEloquentModel extends Authenticatable
 
 
     /* ╔═════════════════════════ Relationships ═════════════════════╗ */
+
+
+    public function favorites()
+    {
+        return $this->hasMany(MovieFavoriteEloquentModel::class, 'movie_id');
+    }
 }
