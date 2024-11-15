@@ -2,8 +2,6 @@
 
 namespace App\Domain\Entities;
 
-use Illuminate\Support\Facades\Hash;
-
 class User
 {
     private ?int $id;
@@ -17,8 +15,6 @@ class User
         $this->name = $name;
         $this->email = $email;
         $this->password = $password;
-
-        info('created password: ' . $password);
     }
 
     public function getId(): ?int

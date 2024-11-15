@@ -123,16 +123,21 @@ To run the tests, use the following command:
 vendor/bin/phpunit
 ```
 
+
 ## API Endpoints
 
-### Authentication
+#### Authentication
 
 - **POST** `/api/auth/register` - Register a new user
 - **POST** `/api/auth/login` - Log in a user
 
-### Movies
+#### Movies
 
-TODO
+- **GET** `/api/movies/search` - Search for movies based on a query and page number. (requires authentication)
+- **GET** `/api/movies/favorites` - **TODO**
+- **POST** `/api/movies/favorites` - **TODO**
+- **DELETE** `/api/movies/favorites/{id}` - **TODO**
+
 
 ## API Documentation
 
@@ -140,6 +145,7 @@ TODO
 
 #### Register User
 - **Endpoint**: `POST /api/auth/register`
+- **Description**: Register a new user
 - **Request Body**:
   ```json
   {
@@ -153,13 +159,16 @@ TODO
   - **201 Created**
   ```json
   {
-    "access_token": "your_token_here",
-    "token_type": "Bearer"
+    "data": {
+      "access_token": "your_token_here",
+      "token_type": "Bearer"
+    }
   }
   ```
 
 #### Login User
 - **Endpoint**: `POST /api/auth/login`
+- **Description**: Log in a user
 - **Request Body**:
   ```json
   {
@@ -171,10 +180,68 @@ TODO
   - **200 OK**
   ```json
   {
-    "access_token": "your_token_here",
-    "token_type": "Bearer"
+    "data": {
+      "access_token": "your_token_here",
+      "token_type": "Bearer"
+    }
+  }
+  ```
+### Movies
+
+#### Search Movies
+- **Endpoint**: `GET /api/movies/search`
+- **Description**: Search for movies based on a query and page number. 
+- **Headers**:
+  ```
+  Authorization: Bearer your_token_here
+  ```
+- **Query Parameters**:
+  - `query` (string): The search term for the movie (required).
+  - `page` (integer): The page number for pagination (required).
+
+- **Request Example**:
+  ```bash
+  GET /api/movies/search?query=Lore+Ipsum&page=1
+  ```
+
+- **Response**:
+  - **200 OK**
+  ```json
+  {
+    "data": [
+      {
+        "themoviedb_id": 1001,
+        "title": "Lore Ipsum: The Beginning",
+        "overview": "In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.",
+        "release_date": "2024-01-15",
+        "poster_path": "/fakePosterPath1.jpg"
+      },
+      {
+        "themoviedb_id": 1002,
+        "title": "Lore Ipsum: The Quest for Knowledge",
+        "overview": "The second chapter in the Lore Ipsum series takes the protagonist on a thrilling journey to uncover the hidden truths of a digital world full of danger and intrigue.",
+        "release_date": "2024-03-22",
+        "poster_path": "/fakePosterPath2.jpg"
+      }
+    ],
+    "meta": {
+      "current_page": 1,
+      "total_pages": 1,
+      "total_results": 2
+    }
   }
   ```
 
-### Movies
-TODO
+- **Error Responses**:
+  - **400 Bad Request** - Missing required parameters or invalid query:
+    ```json
+    {
+      "message": "The query parameter is required."
+    }
+    ```
+  - **401 Unauthorized** - If authentication token is invalid or not provided:
+    ```json
+    {
+      "message": "Unauthenticated."
+    }
+    ```

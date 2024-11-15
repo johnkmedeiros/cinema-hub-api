@@ -6,6 +6,7 @@ use App\Application\DTOs\Auth\LoginUserDTO;
 use App\Application\Resources\Auth\AuthTokenResource;
 use App\Domain\Interfaces\Repositories\UserRepositoryInterface;
 use App\Infrastructure\Services\AuthService;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class LoginUserUseCase
 {
@@ -18,13 +19,13 @@ class LoginUserUseCase
         $this->authService = $authService;
     }
 
-    public function execute(LoginUserDTO $dto): array
+    public function execute(LoginUserDTO $dto): JsonResource
     {
         $user = $this->userRepository->findByEmail($dto->email);
 
         $token = $this->authService->validatePasswordAndGetToken($user, $dto->password);
 
-        $responseResource = (new AuthTokenResource($token))->resolve();
+        $responseResource = (new AuthTokenResource($token));
 
         return $responseResource;
     }

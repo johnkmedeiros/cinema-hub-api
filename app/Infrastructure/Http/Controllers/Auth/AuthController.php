@@ -20,7 +20,7 @@ class AuthController
         $userRegisterDTO = RegisterUserDTO::makeFromRequest($request);
         $response = $this->registerUserUseCase->execute($userRegisterDTO);
 
-        return response()->json($response, 201);
+        return $response->response()->setStatusCode(201);
     }
 
     public function login(LoginUserRequest $request)
@@ -28,6 +28,6 @@ class AuthController
         $userLoginDTO = LoginUserDTO::makeFromRequest($request);
         $response = $this->loginUserUseCase->execute($userLoginDTO);
 
-        return response()->json($response, 200);
+        return $response->response()->setStatusCode(200);
     }
 }

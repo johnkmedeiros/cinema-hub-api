@@ -1,5 +1,7 @@
 <?php
 
+use App\Infrastructure\Persistence\Models\UserEloquentModel;
+
 return [
 
     /*
@@ -65,15 +67,15 @@ return [
     */
 
     'providers' => [
-        // 'users' => [
-        //     'driver' => 'eloquent',
-        //     'model' => env('AUTH_MODEL'),
-        // ],
-
         'users' => [
-            'driver' => 'database',
-            'table' => 'users',
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', UserEloquentModel::class),
         ],
+
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
     ],
 
     /*

@@ -22,13 +22,15 @@ class AuthTest extends TestCase
         ])
             ->assertStatus(201)
             ->assertJsonStructure([
-                'access_token',
-                'token_type',
+                'data' => [
+                    'access_token',
+                    'token_type',
+                ]
             ])
             ->json();
 
-        $this->assertNotEmpty($response['access_token']);
-        $this->assertEquals('Bearer', $response['token_type']);
+        $this->assertNotEmpty($response['data']['access_token']);
+        $this->assertEquals('Bearer', $response['data']['token_type']);
     }
 
     #[Test]
@@ -50,13 +52,15 @@ class AuthTest extends TestCase
         ])
             ->assertStatus(200)
             ->assertJsonStructure([
-                'access_token',
-                'token_type',
+                'data' => [
+                    'access_token',
+                    'token_type',
+                ]
             ])
             ->json();
 
-        $this->assertNotEmpty($response['access_token']);
-        $this->assertEquals('Bearer', $response['token_type']);
+        $this->assertNotEmpty($response['data']['access_token']);
+        $this->assertEquals('Bearer', $response['data']['token_type']);
     }
 
     #[Test]

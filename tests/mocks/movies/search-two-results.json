@@ -1,0 +1,46 @@
+{
+	"page": 1,
+	"results": [
+		{
+			"adult": false,
+			"backdrop_path": "/fakeBackdropPath1.jpg",
+			"genre_ids": [
+				12,
+				14,
+				27
+			],
+			"id": 1001,
+			"original_language": "en",
+			"original_title": "Lore Ipsum: The Beginning",
+			"overview": "In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.",
+			"popularity": 45.23,
+			"poster_path": "/fakePosterPath1.jpg",
+			"release_date": "2024-01-15",
+			"title": "Lore Ipsum: The Beginning",
+			"video": false,
+			"vote_average": 7.5,
+			"vote_count": 134
+		},
+		{
+			"adult": false,
+			"backdrop_path": "/fakeBackdropPath2.jpg",
+			"genre_ids": [
+				28,
+				35
+			],
+			"id": 1002,
+			"original_language": "en",
+			"original_title": "Lore Ipsum: The Quest for Knowledge",
+			"overview": "The second chapter in the Lore Ipsum series takes the protagonist on a thrilling journey to uncover the hidden truths of a digital world full of danger and intrigue.",
+			"popularity": 33.76,
+			"poster_path": "/fakePosterPath2.jpg",
+			"release_date": "2024-03-22",
+			"title": "Lore Ipsum: The Quest for Knowledge",
+			"video": false,
+			"vote_average": 8.2,
+			"vote_count": 215
+		}
+	],
+	"total_pages": 1,
+	"total_results": 2
+}
