@@ -8,16 +8,19 @@ use App\Application\DTOs\Movies\SearchMoviesDTO;
 use App\Application\UseCases\Movies\AddMovieToFavoritesUseCase;
 use App\Application\UseCases\Movies\ListFavoriteMoviesUseCase;
 use App\Application\UseCases\Movies\SearchMoviesUseCase;
+use App\Application\UseCases\Movies\RemoveMovieFromFavoritesUseCase;
 use App\Infrastructure\RequestValidators\Movies\AddMovieToFavoritesRequest;
 use App\Infrastructure\RequestValidators\Movies\ListFavoriteMoviesRequest;
 use App\Infrastructure\RequestValidators\Movies\SearchMoviesRequest;
+use Illuminate\Http\Request;
 
 class MovieController
 {
     public function __construct(
         private SearchMoviesUseCase $searchMoviesUseCase,
+        private ListFavoriteMoviesUseCase $listFavoriteMoviesUseCase,
         private AddMovieToFavoritesUseCase $addMovieToFavoritesUseCase,
-        private ListFavoriteMoviesUseCase $listFavoriteMoviesUseCase
+        private RemoveMovieFromFavoritesUseCase $removeMovieFromFavoritesUseCase
     ) {}
 
     public function search(SearchMoviesRequest $request)
@@ -40,6 +43,13 @@ class MovieController
     {
         $dto = AddMovieToFavoritesDTO::makeFromRequest($request);
         $response = $this->addMovieToFavoritesUseCase->execute($dto);
+
+        return $response->response()->setStatusCode(200);
+    }
+
+    public function removeFavorite(Request $request, int $movieExternalId)
+    {
+        $response = $this->removeMovieFromFavoritesUseCase->execute($movieExternalId);
 
         return $response->response()->setStatusCode(200);
     }

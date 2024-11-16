@@ -90,13 +90,6 @@ class AddMovieToFavoritesTest extends TestCase
             'poster_path' => '/fakePosterPath1.jpg',
         ]);
 
-        Http::fake([
-            "https://api.themoviedb.org/3/movie/{$externalId}*" => Http::response(
-                file_get_contents(base_path('tests/mocks/movies/show-success.json')),
-                200
-            ),
-        ]);
-
         $response = $this->json(
             'POST',
             '/api/movies/favorites',
