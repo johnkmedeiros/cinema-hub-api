@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 class AddMovieToFavoritesDTO extends BaseDTO
 {
     public function __construct(
-        public int $theMovieDbId,
+        public int $externalId,
     ) {
     }
 
     public static function makeFromRequest(Request $request): self
     {
         return new self(
-            theMovieDbId: $request->input('themoviedb_id'),
+            externalId: $request->input('external_id'),
         );
     }
 }

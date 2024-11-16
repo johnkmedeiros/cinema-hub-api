@@ -14,7 +14,7 @@ class AddMovieToFavoritesRequest extends FormRequest
     public function rules()
     {
         return [
-            'themoviedb_id' => 'integer|required'
+            'external_id' => 'integer|required'
         ];
     }
 }

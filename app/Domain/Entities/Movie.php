@@ -5,14 +5,14 @@ namespace App\Domain\Entities;
 class Movie
 {
     private ?int $id;
-    private int $theMovieDbId;
+    private int $externalId;
     private string $title;
     private ?string $overview;
     private string $releaseDate;
     private ?string $posterPath;
 
     public function __construct(
-        int $theMovieDbId,
+        int $externalId,
         string $title,
         ?string $overview,
         string $releaseDate,
@@ -20,7 +20,7 @@ class Movie
         ?int $id = null,
     ) {
         $this->id = $id;
-        $this->theMovieDbId = $theMovieDbId;
+        $this->externalId = $externalId;
         $this->title = $title;
         $this->overview = $overview;
         $this->releaseDate = $releaseDate;
@@ -37,9 +37,9 @@ class Movie
         $this->id = $id;
     }
 
-    public function getTheMovieDbId(): int
+    public function getExternalId(): int
     {
-        return $this->theMovieDbId;
+        return $this->externalId;
     }
 
     public function getTitle(): string

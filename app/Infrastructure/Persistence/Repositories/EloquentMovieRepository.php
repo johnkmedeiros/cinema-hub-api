@@ -19,7 +19,7 @@ class EloquentMovieRepository implements MovieRepositoryInterface
         }
 
         return new Movie(
-            $movie->themoviedb_id,
+            $movie->external_id,
             $movie->title,
             $movie->overview,
             $movie->release_date,
@@ -28,16 +28,16 @@ class EloquentMovieRepository implements MovieRepositoryInterface
         );
     }
 
-    public function findByTheMovieDbId(int $theMovieDbId): ?Movie
+    public function findByExternalId(int $externalId): ?Movie
     {
-        $movie = MovieEloquentModel::where('themoviedb_id', $theMovieDbId)->first();
+        $movie = MovieEloquentModel::where('external_id', $externalId)->first();
 
         if (!$movie) {
             return null;
         }
 
         return new Movie(
-            $movie->themoviedb_id,
+            $movie->external_id,
             $movie->title,
             $movie->overview,
             $movie->release_date,
@@ -49,7 +49,7 @@ class EloquentMovieRepository implements MovieRepositoryInterface
     public function create(Movie $movie): Movie
     {
         $model = new MovieEloquentModel([
-            'themoviedb_id' => $movie->getTheMovieDbId(),
+            'external_id' => $movie->getExternalId(),
             'title' => $movie->getTitle(),
             'overview' => $movie->getOverview(),
             'release_date' => $movie->getReleaseDate(),

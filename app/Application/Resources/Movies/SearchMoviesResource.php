@@ -9,7 +9,7 @@ class SearchMoviesResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'themoviedb_id' => $this->getTheMovieDbId(),
+            'external_id' => $this->getExternalId(),
             'title' => $this->getTitle(),
             'overview' => $this->getOverview(),
             'release_date' => $this->getReleaseDate(),
