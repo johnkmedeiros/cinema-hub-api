@@ -107,6 +107,12 @@ If you would like to avoid affecting your development or production database dur
 
 With this configuration, your tests will run against a separate database, preventing any unwanted changes to the development or production database.
 
+5. Run composer dump-autoload to regenerate the autoload files to ensure that PHPUnit uses the updated configuration correctly:
+
+```bash
+composer dump-autoload
+```
+
 ## Running Migrations
 
 Before testing the API, run the migrations to set up the database:
