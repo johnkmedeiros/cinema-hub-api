@@ -1,5 +1,6 @@
 <?php
 
+use App\Application\Exceptions\BusinessException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,13 +16,13 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (RequestException $e, Request $request) {
+        $exceptions->render(function (BusinessException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json([
                     'success' => false,
-                    'message' => '',
-                    'status_code' => $e->response ? $e->response->status() : 500,
-                ], $e->response ? $e->response->status() : 500);
+                    'message' => $e->getMessage(),
+                    'error_code' => $e->getErrorCode(),
+                ], $e->getCode() ?: 400);
             }
         });
 
@@ -30,7 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 return response()->json([
                     'success' => false,
                     'message' => 'Internal Server Error',
-                    'status_code' => 500,
+                    'error_code' => null,
                 ], 500);
             }
         });
