@@ -135,7 +135,7 @@ vendor/bin/phpunit
 
 - **GET** `/api/movies/search` - Search for movies based on a query and page number. (requires authentication)
 - **GET** `/api/movies/favorites` - **TODO**
-- **POST** `/api/movies/favorites` - **TODO**
+- **POST** `/api/movies/favorites` - Adds a movie to the authenticated user's favorites list. The movie will be retrieved from an external API based on the provided `themoviedb_id`. (requires authentication)
 - **DELETE** `/api/movies/favorites/{id}` - **TODO**
 
 
