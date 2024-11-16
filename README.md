@@ -134,9 +134,9 @@ vendor/bin/phpunit
 #### Movies
 
 - **GET** `/api/movies/search` - Search for movies based on a query and page number. (requires authentication)
-- **GET** `/api/movies/favorites` - **TODO**
+- **GET** `/api/movies/favorites` - Retrieve a list of the user’s favorite movies.
 - **POST** `/api/movies/favorites` - Adds a movie to the authenticated user's favorites list. The movie will be retrieved from an external API based on the provided `external_id`. (requires authentication)
-- **DELETE** `/api/movies/favorites/{id}` - **TODO**
+- **DELETE** `/api/movies/favorites/{id}` - Remove a movie from the user's favorite list. (requires authentication)
 
 
 ## API Documentation
@@ -247,7 +247,7 @@ vendor/bin/phpunit
     ```    
 #### List favorites
 - **Endpoint**: `GET /api/movies/favorites`
-- **Description**:Retrieve a list of the user’s favorite movies.
+- **Description**: Retrieve a list of the user’s favorite movies.
 - **Headers**:
   ```
   Authorization: Bearer your_token_here
@@ -346,3 +346,36 @@ vendor/bin/phpunit
       "error_code": "MOVIE_NOT_FOUND",
     }
     ```    
+#### Remove Movie from Favorites
+- **Endpoint**: `DELETE /api/movies/favorites/{external_id}`
+- **Description**: Remove a movie from the user's favorite list.
+- **Headers**:
+  ```bash
+  Authorization: Bearer your_token_here
+  ```
+- **URL Parameters**:
+  - `external_id`: The external ID of the movie to be removed from favorites.
+
+- **Response**:
+  - **200 OK**
+    ```json
+    {
+      "message": "Movie #1001 removed from your favorite list."
+    }
+    ```
+
+- **Error Responses**:
+  - **422 Unprocessable Content** - If the movie is not in the user's favorite list:
+    ```json
+    {
+      "success": false,
+      "message": "Movie is not favorited.",
+      "error_code": "MOVIE_NOT_FAVORITED"
+    }
+    ```
+  - **401 Unauthorized** - If authentication token is invalid or not provided:
+    ```json
+    {
+      "message": "Unauthenticated."
+    }
+    ```
