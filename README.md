@@ -142,7 +142,7 @@ vendor/bin/phpunit
 - **GET** `/api/movies/search` - Search for movies based on a query and page number. (requires authentication)
 - **GET** `/api/movies/favorites` - Retrieve a list of the user’s favorite movies.
 - **POST** `/api/movies/favorites` - Adds a movie to the authenticated user's favorites list. The movie will be retrieved from an external API based on the provided `external_id`. (requires authentication)
-- **DELETE** `/api/movies/favorites/{id}` - Remove a movie from the user's favorite list. (requires authentication)
+- **DELETE** `/api/movies/favorites/{external_id}` - Remove a movie from the user's favorite list. (requires authentication)
 
 
 ## API Documentation
