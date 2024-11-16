@@ -3,6 +3,8 @@
 namespace App\Application\UseCases\Movies;
 
 use App\Application\DTOs\Movies\AddMovieToFavoritesDTO;
+use App\Application\Enums\ErrorCodeEnum;
+use App\Application\Exceptions\BusinessException;
 use App\Application\Resources\Movies\GenericMessageResource;
 use App\Domain\Entities\Movie;
 use App\Domain\Interfaces\Repositories\MovieRepositoryInterface;
@@ -38,6 +40,10 @@ class AddMovieToFavoritesUseCase
         if (!$movie) {
             $response = $this->theMovieDbService->getMovie($dto->theMovieDbId);
 
+            if (!$response) {
+                throw new BusinessException("Movie not found.", 404, ErrorCodeEnum::MOVIE_NOT_FOUND->value);
+            }
+
             $movie = new Movie(
                 theMovieDbId: $response['id'],
                 title: $response['title'],
@@ -56,8 +62,8 @@ class AddMovieToFavoritesUseCase
     {
         $user = $this->authService->getAuthenticatedUser();
 
-        if ($this->movieRepository->isFavorite($user->getId(), $movie->getId())) {
-            return;
+        if ($this->movieRepository->isFavorited($user->getId(), $movie->getId())) {
+            throw new BusinessException("Movie is already favorited.", 422, ErrorCodeEnum::MOVIE_ALREADY_FAVORITED->value);
         }
 
         $this->movieRepository->addFavorite($user->getId(), $movie->getId());

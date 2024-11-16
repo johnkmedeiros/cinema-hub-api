@@ -30,7 +30,13 @@ class TheMovieDbService
     {
         $response = Http::get("{$this->apiBaseUrl}/movie/{$theMovieDbId}", [
             'api_key' => $this->apiKey
-        ])->throwUnlessStatus(200);
+        ])->throwIf(function ($response) {
+            return $response->status() !== 404 && $response->status() !== 200;
+        });
+
+        if ($response->status() === 404) {
+            return null;
+        }
 
         return $response->json();
     }
