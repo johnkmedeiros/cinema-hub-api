@@ -244,6 +244,56 @@ vendor/bin/phpunit
     {
       "message": "Unauthenticated."
     }
+    ```    
+#### List favorites
+- **Endpoint**: `GET /api/movies/favorites`
+- **Description**:Retrieve a list of the user’s favorite movies.
+- **Headers**:
+  ```
+  Authorization: Bearer your_token_here
+  ```
+- **Query Parameters**:
+  - `page` (integer): The page number for pagination (optional).
+
+- **Request Example**:
+  ```bash
+  GET /api/movies/favorites?page=1
+  ```
+
+- **Response**:
+  - **200 OK**
+    ```json
+    {
+      "data": [
+        {
+          "external_id": 1001,
+          "title": "Lore Ipsum: The Beginning",
+          "overview": "In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.",
+          "release_date": "2024-01-15",
+          "poster_path": "/fakePosterPath1.jpg"
+        },
+        {
+          "external_id": 1002,
+          "title": "Lore Ipsum: The Quest for Knowledge",
+          "overview": "The second chapter in the Lore Ipsum series takes the protagonist on a thrilling journey to uncover the hidden truths of a digital world full of danger and intrigue.",
+          "release_date": "2024-03-22",
+          "poster_path": "/fakePosterPath2.jpg"
+        }
+      ],
+      "meta": {
+        "current_page": 1,
+        "total_pages": 1,
+        "total_results": 2
+      }
+    }
+    ```
+
+- **Error Responses**:
+  - **401 Unauthorized** - If authentication token is invalid or not provided:
+    ```json
+    {
+      "message": "Unauthenticated."
+    }
     ```
 #### Add Movie to Favorites
 - **Endpoint**: `POST /api/movies/favorites`
@@ -296,53 +346,3 @@ vendor/bin/phpunit
       "error_code": "MOVIE_NOT_FOUND",
     }
     ```    
-#### List favorites
-- **Endpoint**: `GET /api/movies/favorites`
-- **Description**:Retrieve a list of the user’s favorite movies.
-- **Headers**:
-  ```
-  Authorization: Bearer your_token_here
-  ```
-- **Query Parameters**:
-  - `page` (integer): The page number for pagination (optional).
-
-- **Request Example**:
-  ```bash
-  GET /api/movies/favorites?page=1
-  ```
-
-- **Response**:
-  - **200 OK**
-    ```json
-    {
-      "data": [
-        {
-          "external_id": 1001,
-          "title": "Lore Ipsum: The Beginning",
-          "overview": "In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.",
-          "release_date": "2024-01-15",
-          "poster_path": "/fakePosterPath1.jpg"
-        },
-        {
-          "external_id": 1002,
-          "title": "Lore Ipsum: The Quest for Knowledge",
-          "overview": "The second chapter in the Lore Ipsum series takes the protagonist on a thrilling journey to uncover the hidden truths of a digital world full of danger and intrigue.",
-          "release_date": "2024-03-22",
-          "poster_path": "/fakePosterPath2.jpg"
-        }
-      ],
-      "meta": {
-        "current_page": 1,
-        "total_pages": 1,
-        "total_results": 2
-      }
-    }
-    ```
-
-- **Error Responses**:
-  - **401 Unauthorized** - If authentication token is invalid or not provided:
-    ```json
-    {
-      "message": "Unauthenticated."
-    }
-    ```
