@@ -99,7 +99,7 @@ class EloquentMovieRepository implements MovieRepositoryInterface
         })->toArray();
     }
 
-    public function isFavorite(int $userId, int $movieId): bool
+    public function isFavorited(int $userId, int $movieId): bool
     {
         return MovieFavoriteEloquentModel::where('user_id', $userId)
             ->where('movie_id', $movieId)

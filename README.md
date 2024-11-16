@@ -274,6 +274,14 @@ vendor/bin/phpunit
       "message": "The themoviedb id field is required."
     }
     ```
+  - **422 Unprocessable Content** - If the movie is already in the user's favorite list:
+    ```json
+    {
+      "success": false,
+      "message": "Movie is already favorited.",
+      "error_code": "MOVIE_ALREADY_FAVORITED"
+    }
+    ```
   - **401 Unauthorized** - If authentication token is invalid or not provided:
     ```json
     {
@@ -284,7 +292,7 @@ vendor/bin/phpunit
     ```json
     {
       "success": false,
-      "message": "",
-      "status_code": 404
+      "message": "Movie not found.",
+      "error_code": "MOVIE_NOT_FOUND",
     }
     ```

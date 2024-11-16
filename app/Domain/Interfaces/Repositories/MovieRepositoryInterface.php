@@ -21,5 +21,5 @@ interface MovieRepositoryInterface
 
     public function getFavoritesByUserId(int $userId): array;
 
-    public function isFavorite(int $userId, int $movieId): bool;
+    public function isFavorited(int $userId, int $movieId): bool;
 }

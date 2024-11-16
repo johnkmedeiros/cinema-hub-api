@@ -141,8 +141,51 @@ class AddMovieToFavoritesTest extends TestCase
             ->assertStatus(404)
             ->assertJsonFragment([
                 'success' => false,
-                'message' => '',
-                'status_code' => 404,
+                'message' => 'Movie not found.',
+                'error_code' => 'MOVIE_NOT_FOUND',
+            ])
+            ->json();
+    }
+
+
+    #[Test]
+    public function itShouldNotFavoriteMovieIfAlreadyFavorited(): void
+    {
+        $theMovieDbId = 1001;
+
+        $persistedMovie = MovieFactory::create([
+            'themoviedb_id' => $theMovieDbId,
+            'title' => 'Lore Ipsum: The Beginning',
+            'overview' => 'In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.',
+            'release_date' => '2024-01-15',
+            'poster_path' => '/fakePosterPath1.jpg',
+        ]);
+
+        $persistedFavorite = MovieFactory::createFavorite([
+            'user_id' => $this->user->getId(),
+            'movie_id' => $persistedMovie->getId(),
+        ]);
+
+        Http::fake([
+            "https://api.themoviedb.org/3/movie/{$theMovieDbId}*" => Http::response(
+                file_get_contents(base_path('tests/mocks/movies/show-success.json')),
+                200
+            ),
+        ]);
+
+        $response = $this->json(
+            'POST',
+            '/api/movies/favorites',
+            [
+                'themoviedb_id' => $theMovieDbId,
+            ],
+            $this->headerWithToken
+        )
+            ->assertStatus(422)
+            ->assertJsonFragment([
+                'success' => false,
+                'message' => "Movie is already favorited.",
+                'error_code' => 'MOVIE_ALREADY_FAVORITED',
             ])
             ->json();
     }
