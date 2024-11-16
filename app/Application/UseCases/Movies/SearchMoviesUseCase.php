@@ -5,7 +5,7 @@ namespace App\Application\UseCases\Movies;
 use App\Application\DTOs\Movies\SearchMoviesDTO;
 use App\Application\Resources\Movies\SearchMoviesResource;
 use App\Domain\Entities\Movie;
-use App\Infrastructure\Services\TheMovieDbService;
+use App\Infrastructure\Services\Movies\TheMovieDbService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SearchMoviesUseCase

@@ -12,6 +12,6 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:sanctum')->prefix('movies')->group(function () {
     Route::get('search', [MovieController::class, 'search']);
     // Route::get('favorites', [MovieController::class, 'listFavorites']);
-    // Route::post('favorites', [MovieController::class, 'addFavorite']);
+    Route::post('favorites', [MovieController::class, 'addFavorite']);
     // Route::delete('favorites/{id}', [MovieController::class, 'removeFavorite']);
 });

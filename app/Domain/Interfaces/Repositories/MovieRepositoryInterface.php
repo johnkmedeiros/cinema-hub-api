@@ -3,6 +3,7 @@
 namespace App\Domain\Interfaces\Repositories;
 
 use App\Domain\Entities\Movie;
+use App\Domain\Entities\MovieFavorite;
 
 interface MovieRepositoryInterface
 {
@@ -13,4 +14,12 @@ interface MovieRepositoryInterface
     public function create(Movie $movie): Movie;
 
     public function deleteById(int $id): void;
+
+    public function addFavorite(int $userId, int $movieId): MovieFavorite;
+
+    public function removeFavorite(int $userId, int $movieId): void;
+
+    public function getFavoritesByUserId(int $userId): array;
+
+    public function isFavorite(int $userId, int $movieId): bool;
 }
