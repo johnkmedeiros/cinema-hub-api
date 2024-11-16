@@ -2,11 +2,12 @@
 
 namespace App\Infrastructure\Persistence\Repositories;
 
+use App\Application\DTOs\Movies\Responses\PaginatedFavoriteMoviesRepositoryResponse;
 use App\Domain\Entities\Movie;
-use App\Domain\Entities\MovieFavorite;
+use App\Domain\Entities\FavoriteMovie;
 use App\Domain\Interfaces\Repositories\MovieRepositoryInterface;
 use App\Infrastructure\Persistence\Models\MovieEloquentModel;
-use App\Infrastructure\Persistence\Models\MovieFavoriteEloquentModel;
+use App\Infrastructure\Persistence\Models\FavoriteMovieEloquentModel;
 
 class EloquentMovieRepository implements MovieRepositoryInterface
 {
@@ -69,39 +70,58 @@ class EloquentMovieRepository implements MovieRepositoryInterface
     }
 
 
-    public function addFavorite(int $userId, int $movieId): MovieFavorite
+    public function addFavorite(int $userId, int $movieId): FavoriteMovie
     {
-        $favoriteModel = MovieFavoriteEloquentModel::firstOrNew([
+        $favoriteModel = FavoriteMovieEloquentModel::firstOrNew([
             'user_id' => $userId,
             'movie_id' => $movieId
         ]);
 
         $favoriteModel->save();
 
-        return new MovieFavorite($favoriteModel->user_id, $favoriteModel->movie_id, $favoriteModel->id);
+        return new FavoriteMovie($favoriteModel->user_id, $favoriteModel->movie_id, $favoriteModel->id);
     }
 
     public function removeFavorite(int $userId, int $movieId): void
     {
-        $favoriteModel = MovieFavoriteEloquentModel::where('user_id', $userId)
+        $favoriteModel = FavoriteMovieEloquentModel::where('user_id', $userId)
             ->where('movie_id', $movieId)
             ->firstOrFail();
 
         $favoriteModel->delete();
     }
 
-    public function getFavoritesByUserId(int $userId): array
-    {
-        $favoriteModels = MovieFavoriteEloquentModel::where('user_id', $userId)->get();
 
-        return $favoriteModels->map(function ($favoriteModel) {
-            return new MovieFavorite($favoriteModel->user_id, $favoriteModel->movie_id, $favoriteModel->id);
+    public function getFavoritesByUserId(int $userId, int $page = 1): PaginatedFavoriteMoviesRepositoryResponse
+    {
+        $favoriteModels = FavoriteMovieEloquentModel::where('user_id', $userId)
+            ->with('movie')
+            ->paginate(30, ['*'], 'page', $page);
+
+        $movies = $favoriteModels->map(function ($favorite) {
+            $movie = $favorite->movie;
+
+            return new Movie(
+                $movie->external_id,
+                $movie->title,
+                $movie->overview,
+                $movie->release_date,
+                $movie->poster_path,
+                $movie->id,
+            );
         })->toArray();
+
+        return new PaginatedFavoriteMoviesRepositoryResponse(
+            $movies,
+            $favoriteModels->currentPage(),
+            $favoriteModels->lastPage(),
+            $favoriteModels->total()
+        );
     }
 
     public function isFavorited(int $userId, int $movieId): bool
     {
-        return MovieFavoriteEloquentModel::where('user_id', $userId)
+        return FavoriteMovieEloquentModel::where('user_id', $userId)
             ->where('movie_id', $movieId)
             ->exists();
     }

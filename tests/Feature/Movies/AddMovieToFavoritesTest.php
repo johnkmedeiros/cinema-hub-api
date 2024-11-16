@@ -59,7 +59,7 @@ class AddMovieToFavoritesTest extends TestCase
         )
             ->assertStatus(200)
             ->assertJsonFragment([
-                'message' => "All right, movie #{$externalId} is in your favorites list.",
+                'message' => "Movie #{$externalId} added to your favorite list.",
             ])
             ->json();
 
@@ -107,7 +107,7 @@ class AddMovieToFavoritesTest extends TestCase
         )
             ->assertStatus(200)
             ->assertJsonFragment([
-                'message' => "All right, movie #{$externalId} is in your favorites list.",
+                'message' => "Movie #{$externalId} added to your favorite list.",
             ])
             ->json();
 

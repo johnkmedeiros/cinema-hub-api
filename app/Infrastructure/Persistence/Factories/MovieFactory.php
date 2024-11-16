@@ -3,9 +3,9 @@
 namespace App\Infrastructure\Persistence\Factories;
 
 use App\Domain\Entities\Movie;
-use App\Domain\Entities\MovieFavorite;
+use App\Domain\Entities\FavoriteMovie;
 use App\Infrastructure\Persistence\Models\MovieEloquentModel;
-use App\Infrastructure\Persistence\Models\MovieFavoriteEloquentModel;
+use App\Infrastructure\Persistence\Models\FavoriteMovieEloquentModel;
 
 class MovieFactory
 {
@@ -23,14 +23,14 @@ class MovieFactory
         );
     }
 
-    public static function createFavorite(array $data): MovieFavorite
+    public static function createFavorite(array $data): FavoriteMovie
     {
-        $createdMovieFavorite = MovieFavoriteEloquentModel::factory()->create($data);
+        $createdFavoriteMovie = FavoriteMovieEloquentModel::factory()->create($data);
 
-        return new MovieFavorite(
-            $createdMovieFavorite->user_id,
-            $createdMovieFavorite->movie_id,
-            $createdMovieFavorite->id,
+        return new FavoriteMovie(
+            $createdFavoriteMovie->user_id,
+            $createdFavoriteMovie->movie_id,
+            $createdFavoriteMovie->id,
         );
     }
 }
