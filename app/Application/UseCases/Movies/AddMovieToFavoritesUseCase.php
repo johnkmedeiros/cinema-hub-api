@@ -8,19 +8,19 @@ use App\Application\Exceptions\BusinessException;
 use App\Application\Resources\Movies\GenericMessageResource;
 use App\Domain\Entities\Movie;
 use App\Domain\Interfaces\Repositories\MovieRepositoryInterface;
-use App\Infrastructure\Services\Auth\AuthService;
-use App\Infrastructure\Services\Movies\TheMovieDbService;
+use App\Domain\Interfaces\Services\AuthServiceInterface;
+use App\Domain\Interfaces\Services\ExternalMovieApiServiceInterface;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AddMovieToFavoritesUseCase
 {
-    private TheMovieDbService $theMovieDbService;
+    private ExternalMovieApiServiceInterface $externalMovieApiService;
     private MovieRepositoryInterface $movieRepository;
-    private AuthService $authService;
+    private AuthServiceInterface $authService;
 
-    public function __construct(TheMovieDbService $theMovieDbService, MovieRepositoryInterface $movieRepository, AuthService $authService)
+    public function __construct(ExternalMovieApiServiceInterface $externalMovieApiService, MovieRepositoryInterface $movieRepository, AuthServiceInterface $authService)
     {
-        $this->theMovieDbService = $theMovieDbService;
+        $this->externalMovieApiService = $externalMovieApiService;
         $this->movieRepository = $movieRepository;
         $this->authService = $authService;
     }
@@ -38,7 +38,7 @@ class AddMovieToFavoritesUseCase
         $movie = $this->movieRepository->findByTheMovieDbId($dto->theMovieDbId);
 
         if (!$movie) {
-            $response = $this->theMovieDbService->getMovie($dto->theMovieDbId);
+            $response = $this->externalMovieApiService->getMovie($dto->theMovieDbId);
 
             if (!$response) {
                 throw new BusinessException("Movie not found.", 404, ErrorCodeEnum::MOVIE_NOT_FOUND->value);

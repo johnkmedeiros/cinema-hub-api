@@ -2,9 +2,10 @@
 
 namespace App\Infrastructure\Services\Movies;
 
+use App\Domain\Interfaces\Services\ExternalMovieApiServiceInterface;
 use Illuminate\Support\Facades\Http;
 
-class TheMovieDbService
+class TheMovieDbService implements ExternalMovieApiServiceInterface
 {
     protected string $apiBaseUrl;
     protected string $apiKey;
@@ -26,9 +27,9 @@ class TheMovieDbService
         return $response->json();
     }
 
-    public function getMovie(int $theMovieDbId): ?array
+    public function getMovie(int $movieId): ?array
     {
-        $response = Http::get("{$this->apiBaseUrl}/movie/{$theMovieDbId}", [
+        $response = Http::get("{$this->apiBaseUrl}/movie/{$movieId}", [
             'api_key' => $this->apiKey
         ])->throwIf(function ($response) {
             return $response->status() !== 404 && $response->status() !== 200;

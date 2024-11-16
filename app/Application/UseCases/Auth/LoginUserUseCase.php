@@ -5,15 +5,15 @@ namespace App\Application\UseCases\Auth;
 use App\Application\DTOs\Auth\LoginUserDTO;
 use App\Application\Resources\Auth\AuthTokenResource;
 use App\Domain\Interfaces\Repositories\UserRepositoryInterface;
-use App\Infrastructure\Services\Auth\AuthService;
+use App\Domain\Interfaces\Services\AuthServiceInterface;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LoginUserUseCase
 {
     private UserRepositoryInterface $userRepository;
-    private AuthService $authService;
+    private AuthServiceInterface $authService;
 
-    public function __construct(UserRepositoryInterface $userRepository, AuthService $authService)
+    public function __construct(UserRepositoryInterface $userRepository, AuthServiceInterface $authService)
     {
         $this->userRepository = $userRepository;
         $this->authService = $authService;
