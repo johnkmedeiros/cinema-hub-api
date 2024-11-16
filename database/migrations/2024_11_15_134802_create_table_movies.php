@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
             $table->string('themoviedb_id')->index();
             $table->string('title');
             $table->text('overview')->nullable();
@@ -21,11 +20,6 @@ return new class extends Migration
             $table->string('poster_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
         });
     }
 

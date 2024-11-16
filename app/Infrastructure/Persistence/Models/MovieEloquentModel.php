@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Models;
 
+use App\Infrastructure\Persistence\Factories\MovieEloquentModelFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,9 +24,13 @@ class MovieEloquentModel extends Model
         'release_date' => 'datetime',
     ];
 
+    protected static function newFactory()
+    {
+        return MovieEloquentModelFactory::new();
+    }
 
     /* ╔═════════════════════════ Relationships ═════════════════════╗ */
-    
+
 
     public function favorites()
     {

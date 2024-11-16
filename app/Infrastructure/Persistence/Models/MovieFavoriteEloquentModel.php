@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Models;
 
+use App\Infrastructure\Persistence\Factories\MovieFavoriteEloquentModelFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,9 +17,13 @@ class MovieFavoriteEloquentModel extends Model
         'movie_id',
     ];
 
+    protected static function newFactory()
+    {
+        return MovieFavoriteEloquentModelFactory::new();
+    }
 
     /* ╔═════════════════════════ Relationships ═════════════════════╗ */
-    
+
 
     public function user()
     {

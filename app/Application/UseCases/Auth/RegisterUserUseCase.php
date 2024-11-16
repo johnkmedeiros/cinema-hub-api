@@ -6,10 +6,8 @@ use App\Application\DTOs\Auth\RegisterUserDTO;
 use App\Application\Resources\Auth\AuthTokenResource;
 use App\Domain\Entities\User;
 use App\Domain\Interfaces\Repositories\UserRepositoryInterface;
-use App\Infrastructure\Services\AuthService;
-use Illuminate\Http\JsonResponse;
+use App\Infrastructure\Services\Auth\AuthService;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Hash;
 
 class RegisterUserUseCase
 {
@@ -30,8 +28,6 @@ class RegisterUserUseCase
 
         $token = $this->authService->generateToken($user);
 
-        $responseResource = (new AuthTokenResource($token));
-
-        return $responseResource;
+        return new AuthTokenResource($token);
     }
 }

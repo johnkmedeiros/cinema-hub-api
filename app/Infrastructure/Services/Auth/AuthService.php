@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Services;
+namespace App\Infrastructure\Services\Auth;
 
 use App\Domain\Entities\User;
 use App\Infrastructure\Persistence\Models\UserEloquentModel;
@@ -23,7 +23,7 @@ class AuthService
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-        
+
         $userModel = UserEloquentModel::where('email', $user->getEmail())->first();
 
         if (!$userModel || !Hash::check($password, $userModel->password)) {
@@ -35,5 +35,12 @@ class AuthService
         $token = $userModel->createToken('api_token')->plainTextToken;
 
         return $token;
+    }
+
+    public function getAuthenticatedUser(): User
+    {
+        $userModel = auth()->user();
+
+        return new User($userModel->name, $userModel->email, $userModel->password, $userModel->id);
     }
 }
