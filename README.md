@@ -157,14 +157,14 @@ vendor/bin/phpunit
   ```
 - **Response**:
   - **201 Created**
-  ```json
-  {
-    "data": {
-      "access_token": "your_token_here",
-      "token_type": "Bearer"
+    ```json
+    {
+      "data": {
+        "access_token": "your_token_here",
+        "token_type": "Bearer"
+      }
     }
-  }
-  ```
+    ```
 
 #### Login User
 - **Endpoint**: `POST /api/auth/login`
@@ -178,14 +178,14 @@ vendor/bin/phpunit
   ```
 - **Response**:
   - **200 OK**
-  ```json
-  {
-    "data": {
-      "access_token": "your_token_here",
-      "token_type": "Bearer"
+    ```json
+    {
+      "data": {
+        "access_token": "your_token_here",
+        "token_type": "Bearer"
+      }
     }
-  }
-  ```
+    ```
 ### Movies
 
 #### Search Movies
@@ -206,34 +206,34 @@ vendor/bin/phpunit
 
 - **Response**:
   - **200 OK**
-  ```json
-  {
-    "data": [
-      {
-        "themoviedb_id": 1001,
-        "title": "Lore Ipsum: The Beginning",
-        "overview": "In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.",
-        "release_date": "2024-01-15",
-        "poster_path": "/fakePosterPath1.jpg"
-      },
-      {
-        "themoviedb_id": 1002,
-        "title": "Lore Ipsum: The Quest for Knowledge",
-        "overview": "The second chapter in the Lore Ipsum series takes the protagonist on a thrilling journey to uncover the hidden truths of a digital world full of danger and intrigue.",
-        "release_date": "2024-03-22",
-        "poster_path": "/fakePosterPath2.jpg"
+    ```json
+    {
+      "data": [
+        {
+          "themoviedb_id": 1001,
+          "title": "Lore Ipsum: The Beginning",
+          "overview": "In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.",
+          "release_date": "2024-01-15",
+          "poster_path": "/fakePosterPath1.jpg"
+        },
+        {
+          "themoviedb_id": 1002,
+          "title": "Lore Ipsum: The Quest for Knowledge",
+          "overview": "The second chapter in the Lore Ipsum series takes the protagonist on a thrilling journey to uncover the hidden truths of a digital world full of danger and intrigue.",
+          "release_date": "2024-03-22",
+          "poster_path": "/fakePosterPath2.jpg"
+        }
+      ],
+      "meta": {
+        "current_page": 1,
+        "total_pages": 1,
+        "total_results": 2
       }
-    ],
-    "meta": {
-      "current_page": 1,
-      "total_pages": 1,
-      "total_results": 2
     }
-  }
-  ```
+    ```
 
 - **Error Responses**:
-  - **400 Bad Request** - Missing required parameters or invalid query:
+  - **422 Unprocessable Content** - Missing required parameters or invalid query:
     ```json
     {
       "message": "The query parameter is required."
@@ -243,5 +243,48 @@ vendor/bin/phpunit
     ```json
     {
       "message": "Unauthenticated."
+    }
+    ```
+#### Add Movie to Favorites
+- **Endpoint**: `POST /api/movies/favorites`
+- **Description**: Add a movie to the user's favorite list.
+- **Headers**:
+  ```bash
+  Authorization: Bearer your_token_here
+  ```
+- **Request Body**:
+  ```json
+  {
+    "themoviedb_id": 1001
+  }
+  ```
+
+- **Response**:
+  - **200 OK**
+    ```json
+    {
+      "message": "All right, movie #1001 is in your favorites list."
+    }
+    ```
+
+- **Error Responses**:
+  - **422 Unprocessable Content** - Missing `themoviedb_id` or invalid value:
+    ```json
+    {
+      "message": "The themoviedb id field is required."
+    }
+    ```
+  - **401 Unauthorized** - If authentication token is invalid or not provided:
+    ```json
+    {
+      "message": "Unauthenticated."
+    }
+    ```
+  - **404 Not Found** - If the movie is not found on the external API:
+    ```json
+    {
+      "success": false,
+      "message": "",
+      "status_code": 404
     }
     ```
