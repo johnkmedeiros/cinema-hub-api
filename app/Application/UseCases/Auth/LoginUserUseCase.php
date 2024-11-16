@@ -5,7 +5,7 @@ namespace App\Application\UseCases\Auth;
 use App\Application\DTOs\Auth\LoginUserDTO;
 use App\Application\Resources\Auth\AuthTokenResource;
 use App\Domain\Interfaces\Repositories\UserRepositoryInterface;
-use App\Infrastructure\Services\AuthService;
+use App\Infrastructure\Services\Auth\AuthService;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LoginUserUseCase
@@ -25,8 +25,6 @@ class LoginUserUseCase
 
         $token = $this->authService->validatePasswordAndGetToken($user, $dto->password);
 
-        $responseResource = (new AuthTokenResource($token));
-
-        return $responseResource;
+        return new AuthTokenResource($token);
     }
 }
