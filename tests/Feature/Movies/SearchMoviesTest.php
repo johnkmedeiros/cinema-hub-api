@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Movies;
 
 use App\Domain\Entities\User;
 use App\Infrastructure\Persistence\Factories\UserFactory;
-use App\Infrastructure\Services\AuthService;
+use App\Infrastructure\Services\Auth\AuthService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\Attributes\Test;
