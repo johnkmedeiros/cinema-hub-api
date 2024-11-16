@@ -30,7 +30,7 @@ class AddMovieToFavoritesUseCase
         $movie = $this->getMovie($dto);
         $this->addToFavorites($movie);
 
-        return new GenericMessageResource("All right, movie #{$movie->getExternalId()} is in your favorites list.");
+        return new GenericMessageResource("Movie #{$movie->getExternalId()} added to your favorite list.");
     }
 
     private function getMovie(AddMovieToFavoritesDTO $dto): Movie

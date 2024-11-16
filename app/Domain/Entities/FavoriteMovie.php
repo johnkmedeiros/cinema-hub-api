@@ -2,7 +2,7 @@
 
 namespace App\Domain\Entities;
 
-class MovieFavorite
+class FavoriteMovie
 {
     private int $userId;
     private int $movieId;

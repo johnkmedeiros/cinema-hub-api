@@ -34,6 +34,6 @@ class MovieEloquentModel extends Model
 
     public function favorites()
     {
-        return $this->hasMany(MovieFavoriteEloquentModel::class, 'movie_id');
+        return $this->hasMany(FavoriteMovieEloquentModel::class, 'movie_id');
     }
 }
