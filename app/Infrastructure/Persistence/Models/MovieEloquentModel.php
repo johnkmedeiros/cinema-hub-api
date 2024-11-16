@@ -13,7 +13,7 @@ class MovieEloquentModel extends Model
     protected $table = 'movies';
 
     protected $fillable = [
-        'themoviedb_id',
+        'external_id',
         'title',
         'overview',
         'release_date',

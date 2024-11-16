@@ -135,7 +135,7 @@ vendor/bin/phpunit
 
 - **GET** `/api/movies/search` - Search for movies based on a query and page number. (requires authentication)
 - **GET** `/api/movies/favorites` - **TODO**
-- **POST** `/api/movies/favorites` - Adds a movie to the authenticated user's favorites list. The movie will be retrieved from an external API based on the provided `themoviedb_id`. (requires authentication)
+- **POST** `/api/movies/favorites` - Adds a movie to the authenticated user's favorites list. The movie will be retrieved from an external API based on the provided `external_id`. (requires authentication)
 - **DELETE** `/api/movies/favorites/{id}` - **TODO**
 
 
@@ -210,14 +210,14 @@ vendor/bin/phpunit
     {
       "data": [
         {
-          "themoviedb_id": 1001,
+          "external_id": 1001,
           "title": "Lore Ipsum: The Beginning",
           "overview": "In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.",
           "release_date": "2024-01-15",
           "poster_path": "/fakePosterPath1.jpg"
         },
         {
-          "themoviedb_id": 1002,
+          "external_id": 1002,
           "title": "Lore Ipsum: The Quest for Knowledge",
           "overview": "The second chapter in the Lore Ipsum series takes the protagonist on a thrilling journey to uncover the hidden truths of a digital world full of danger and intrigue.",
           "release_date": "2024-03-22",
@@ -255,7 +255,7 @@ vendor/bin/phpunit
 - **Request Body**:
   ```json
   {
-    "themoviedb_id": 1001
+    "external_id": 1001
   }
   ```
 
@@ -268,7 +268,7 @@ vendor/bin/phpunit
     ```
 
 - **Error Responses**:
-  - **422 Unprocessable Content** - Missing `themoviedb_id` or invalid value:
+  - **422 Unprocessable Content** - Missing `external_id` or invalid value:
     ```json
     {
       "message": "The themoviedb id field is required."

@@ -14,7 +14,7 @@ class MovieFactory
         $createdMovie = MovieEloquentModel::factory()->create($data);
 
         return new Movie(
-            $createdMovie->themoviedb_id,
+            $createdMovie->external_id,
             $createdMovie->title,
             $createdMovie->overview,
             $createdMovie->release_date,

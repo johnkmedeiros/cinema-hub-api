@@ -9,7 +9,7 @@ interface MovieRepositoryInterface
 {
     public function findById(int $id): ?Movie;
 
-    public function findByTheMovieDbId(int $theMovieDbId): ?Movie;
+    public function findByExternalId(int $externalId): ?Movie;
 
     public function create(Movie $movie): Movie;
 

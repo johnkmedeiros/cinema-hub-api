@@ -40,10 +40,10 @@ class AddMovieToFavoritesTest extends TestCase
     #[Test]
     public function itShouldSuccessfullyFavoriteMovie(): void
     {
-        $theMovieDbId = 1001;
+        $externalId = 1001;
 
         Http::fake([
-            "https://api.themoviedb.org/3/movie/{$theMovieDbId}*" => Http::response(
+            "https://api.themoviedb.org/3/movie/{$externalId}*" => Http::response(
                 file_get_contents(base_path('tests/mocks/movies/show-success.json')),
                 200
             ),
@@ -53,19 +53,19 @@ class AddMovieToFavoritesTest extends TestCase
             'POST',
             '/api/movies/favorites',
             [
-                'themoviedb_id' => $theMovieDbId,
+                'external_id' => $externalId,
             ],
             $this->headerWithToken
         )
             ->assertStatus(200)
             ->assertJsonFragment([
-                'message' => "All right, movie #{$theMovieDbId} is in your favorites list.",
+                'message' => "All right, movie #{$externalId} is in your favorites list.",
             ])
             ->json();
 
-        $persistedMovie = DB::table('movies')->where('themoviedb_id', $theMovieDbId)->first();
+        $persistedMovie = DB::table('movies')->where('external_id', $externalId)->first();
 
-        $this->assertEquals($theMovieDbId, $persistedMovie->themoviedb_id);
+        $this->assertEquals($externalId, $persistedMovie->external_id);
         $this->assertEquals('Lore Ipsum: The Beginning', $persistedMovie->title);
         $this->assertEquals('In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.', $persistedMovie->overview);
         $this->assertEquals('2024-01-15', $persistedMovie->release_date);
@@ -80,10 +80,10 @@ class AddMovieToFavoritesTest extends TestCase
     #[Test]
     public function itShouldSuccessfullyFavoriteMovieEvenIfTheMovieIsAlreadyPersistedBefore(): void
     {
-        $theMovieDbId = 1001;
+        $externalId = 1001;
 
         $persistedMovie = MovieFactory::create([
-            'themoviedb_id' => $theMovieDbId,
+            'external_id' => $externalId,
             'title' => 'Lore Ipsum: The Beginning',
             'overview' => 'In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.',
             'release_date' => '2024-01-15',
@@ -91,7 +91,7 @@ class AddMovieToFavoritesTest extends TestCase
         ]);
 
         Http::fake([
-            "https://api.themoviedb.org/3/movie/{$theMovieDbId}*" => Http::response(
+            "https://api.themoviedb.org/3/movie/{$externalId}*" => Http::response(
                 file_get_contents(base_path('tests/mocks/movies/show-success.json')),
                 200
             ),
@@ -101,17 +101,17 @@ class AddMovieToFavoritesTest extends TestCase
             'POST',
             '/api/movies/favorites',
             [
-                'themoviedb_id' => $theMovieDbId,
+                'external_id' => $externalId,
             ],
             $this->headerWithToken
         )
             ->assertStatus(200)
             ->assertJsonFragment([
-                'message' => "All right, movie #{$theMovieDbId} is in your favorites list.",
+                'message' => "All right, movie #{$externalId} is in your favorites list.",
             ])
             ->json();
 
-        $this->assertEquals($theMovieDbId, $persistedMovie->getTheMovieDbId());
+        $this->assertEquals($externalId, $persistedMovie->getExternalId());
         $this->assertEquals('Lore Ipsum: The Beginning', $persistedMovie->getTitle());
         $this->assertEquals('In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.', $persistedMovie->getOverview());
         $this->assertEquals('2024-01-15 00:00:00', $persistedMovie->getReleaseDate());
@@ -121,10 +121,10 @@ class AddMovieToFavoritesTest extends TestCase
     #[Test]
     public function itShouldNotFoundWhenShowMovie(): void
     {
-        $theMovieDbId = 1001;
+        $externalId = 1001;
 
         Http::fake([
-            "https://api.themoviedb.org/3/movie/{$theMovieDbId}*" => Http::response(
+            "https://api.themoviedb.org/3/movie/{$externalId}*" => Http::response(
                 file_get_contents(base_path('tests/mocks/movies/show-not-found.json')),
                 404
             ),
@@ -134,7 +134,7 @@ class AddMovieToFavoritesTest extends TestCase
             'POST',
             '/api/movies/favorites',
             [
-                'themoviedb_id' => $theMovieDbId,
+                'external_id' => $externalId,
             ],
             $this->headerWithToken
         )
@@ -151,10 +151,10 @@ class AddMovieToFavoritesTest extends TestCase
     #[Test]
     public function itShouldNotFavoriteMovieIfAlreadyFavorited(): void
     {
-        $theMovieDbId = 1001;
+        $externalId = 1001;
 
         $persistedMovie = MovieFactory::create([
-            'themoviedb_id' => $theMovieDbId,
+            'external_id' => $externalId,
             'title' => 'Lore Ipsum: The Beginning',
             'overview' => 'In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.',
             'release_date' => '2024-01-15',
@@ -167,7 +167,7 @@ class AddMovieToFavoritesTest extends TestCase
         ]);
 
         Http::fake([
-            "https://api.themoviedb.org/3/movie/{$theMovieDbId}*" => Http::response(
+            "https://api.themoviedb.org/3/movie/{$externalId}*" => Http::response(
                 file_get_contents(base_path('tests/mocks/movies/show-success.json')),
                 200
             ),
@@ -177,7 +177,7 @@ class AddMovieToFavoritesTest extends TestCase
             'POST',
             '/api/movies/favorites',
             [
-                'themoviedb_id' => $theMovieDbId,
+                'external_id' => $externalId,
             ],
             $this->headerWithToken
         )
@@ -197,7 +197,7 @@ class AddMovieToFavoritesTest extends TestCase
             'POST',
             '/api/movies/favorites',
             [
-                'themoviedb_id' => 1000,
+                'external_id' => 1000,
             ],
             [
                 'Authorization' => 'Bearer wrongtoken'
@@ -211,7 +211,7 @@ class AddMovieToFavoritesTest extends TestCase
     }
 
     #[Test]
-    public function itShouldRequireTheMovieDbIdParameter(): void
+    public function itShouldRequireExternalIdParameter(): void
     {
         $this->json(
             'POST',
@@ -221,7 +221,7 @@ class AddMovieToFavoritesTest extends TestCase
         )
             ->assertStatus(422)
             ->assertJsonFragment([
-                'message' => 'The themoviedb id field is required.',
+                'message' => 'The external id field is required.',
             ]);
     }
 }

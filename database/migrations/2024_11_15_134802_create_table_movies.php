@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->string('themoviedb_id')->index();
+            $table->string('external_id')->index();
             $table->string('title');
             $table->text('overview')->nullable();
             $table->date('release_date');

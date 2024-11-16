@@ -30,27 +30,19 @@ class AddMovieToFavoritesUseCase
         $movie = $this->getMovie($dto);
         $this->addToFavorites($movie);
 
-        return new GenericMessageResource("All right, movie #{$movie->getTheMovieDbId()} is in your favorites list.");
+        return new GenericMessageResource("All right, movie #{$movie->getExternalId()} is in your favorites list.");
     }
 
     private function getMovie(AddMovieToFavoritesDTO $dto): Movie
     {
-        $movie = $this->movieRepository->findByTheMovieDbId($dto->theMovieDbId);
+        $movie = $this->movieRepository->findByExternalId($dto->externalId);
 
         if (!$movie) {
-            $response = $this->externalMovieApiService->getMovie($dto->theMovieDbId);
+            $movie = $this->externalMovieApiService->getMovie($dto->externalId);
 
-            if (!$response) {
+            if (!$movie) {
                 throw new BusinessException("Movie not found.", 404, ErrorCodeEnum::MOVIE_NOT_FOUND->value);
             }
-
-            $movie = new Movie(
-                theMovieDbId: $response['id'],
-                title: $response['title'],
-                overview: $response['overview'],
-                releaseDate: $response['release_date'],
-                posterPath: $response['poster_path']
-            );
 
             $movie = $this->movieRepository->create($movie);
         }

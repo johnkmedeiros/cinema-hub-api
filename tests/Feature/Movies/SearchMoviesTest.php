@@ -70,13 +70,13 @@ class SearchMoviesTest extends TestCase
                 $request->data()['page'] === $page;
         });
 
-        $this->assertEquals(1001, $response['data'][0]['themoviedb_id']);
+        $this->assertEquals(1001, $response['data'][0]['external_id']);
         $this->assertEquals('Lore Ipsum: The Beginning', $response['data'][0]['title']);
         $this->assertEquals('In a world where text and stories are created by random generation, Lore Ipsum comes to life in an unexpected adventure of mystery and discovery.', $response['data'][0]['overview']);
         $this->assertEquals('2024-01-15', $response['data'][0]['release_date']);
         $this->assertEquals('/fakePosterPath1.jpg', $response['data'][0]['poster_path']);
 
-        $this->assertEquals(1002, $response['data'][1]['themoviedb_id']);
+        $this->assertEquals(1002, $response['data'][1]['external_id']);
         $this->assertEquals('Lore Ipsum: The Quest for Knowledge', $response['data'][1]['title']);
         $this->assertEquals('The second chapter in the Lore Ipsum series takes the protagonist on a thrilling journey to uncover the hidden truths of a digital world full of danger and intrigue.', $response['data'][1]['overview']);
         $this->assertEquals('2024-03-22', $response['data'][1]['release_date']);
